@@ -1,0 +1,6 @@
+MVP:
+    [ ] (FTR) Implement UI to see the report
+
+Future:
+    [ ] (IMP) Refactor and optimize controller actions
+    [ ] (FTR) Add system/user-defined mark / filter
