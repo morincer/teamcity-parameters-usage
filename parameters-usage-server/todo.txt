@@ -1,5 +1,6 @@
 MVP:
     [x] (FTR) Implement UI to see the report
+    [ ] (FTR) Prepare for publishing - add vendor information, write Readme.md, release in github
 
 Future:
     [ ] (FTR) Add system/user-defined mark / filter
