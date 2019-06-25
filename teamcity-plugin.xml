@@ -4,13 +4,12 @@
     <name>parameters-usage</name>
     <display-name>Build Parameters Usage Report</display-name>
     <version>@Version@</version>
-    <description>The plugin adds a new report (under My Tools) showing the usage of all you build parameters</description>
-    <download-url>Plugin download URL</download-url>
-    <email>Plugin author e-mail</email>
+    <description>The plugin adds a new report (under My Tools) showing the usage of all you build parameters within your projects and build configurations</description>
+    <download-url>https://github.com/morincer/teamcity-parameters-usage</download-url>
+    <email>morincer@gmail.com</email>
     <vendor>
       <name>@VendorName@</name>
       <url>@VendorURL@</url>
-      <logo>Plugin vendor logo URL</logo>
     </vendor>
   </info>
   <deployment use-separate-classloader="true"/>

@@ -1,6 +1,12 @@
 MVP:
     [x] (FTR) Implement UI to see the report
-    [ ] (FTR) Prepare for publishing - add vendor information, write Readme.md, release in github
+    [ ] (FTR) Prepare for publishing
+        [x] Add vendor information
+        [x] Write Readme.md
+        [x] Review pom.xml for boilerplate code, comments
+        [x] Review build log for warnings
+        [ ] Verify no un-needed artifacts are published to git
+        [ ] Release in github
 
 Future:
     [ ] (FTR) Add system/user-defined mark / filter

@@ -11,8 +11,8 @@
   <properties>
       <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
       <teamcity.parameters-usage.plugin.version>snapshot-${maven.build.timestamp}</teamcity.parameters-usage.plugin.version>
-      <teamcity.parameters-usage.plugin.vendorName>Plugin vendor name</teamcity.parameters-usage.plugin.vendorName>
-      <teamcity.parameters-usage.plugin.vendorUrl>Plugin vendor URL</teamcity.parameters-usage.plugin.vendorUrl>
+      <teamcity.parameters-usage.plugin.vendorName>Morincer</teamcity.parameters-usage.plugin.vendorName>
+      <teamcity.parameters-usage.plugin.vendorUrl>https://github.com/morincer</teamcity.parameters-usage.plugin.vendorUrl>
   </properties>
   <dependencies>
       <dependency>
@@ -40,14 +40,17 @@
                 <outputFile>${basedir}/target/teamcity-plugin.xml</outputFile>
                 <replacements>
                     <replacement>
+                        <!--suppress UnresolvedMavenProperty -->
                         <token>@Version@</token>
                         <value>${teamcity.parameters-usage.plugin.version}</value>
                     </replacement>
                     <replacement>
+                        <!--suppress UnresolvedMavenProperty -->
                         <token>@VendorName@</token>
                         <value>${teamcity.parameters-usage.plugin.vendorName}</value>
                     </replacement>
                     <replacement>
+                        <!--suppress UnresolvedMavenProperty -->
                         <token>@VendorURL@</token>
                         <value>${teamcity.parameters-usage.plugin.vendorUrl}</value>
                     </replacement>
