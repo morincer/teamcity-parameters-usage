@@ -2,9 +2,9 @@
 <teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
   <info>
     <name>parameters-usage</name>
-    <display-name>parameters-usage</display-name>
+    <display-name>Build Parameters Usage Report</display-name>
     <version>@Version@</version>
-    <description>Plugin description</description>
+    <description>The plugin adds a new report (under My Tools) showing the usage of all you build parameters</description>
     <download-url>Plugin download URL</download-url>
     <email>Plugin author e-mail</email>
     <vendor>

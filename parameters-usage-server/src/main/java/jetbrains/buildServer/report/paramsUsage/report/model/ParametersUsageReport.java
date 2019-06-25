@@ -1,4 +1,4 @@
-package jetbrains.buildServer.report.paramsUsage.report;
+package jetbrains.buildServer.report.paramsUsage.report.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

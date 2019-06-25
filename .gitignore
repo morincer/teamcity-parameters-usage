@@ -26,3 +26,7 @@ hs_err_pid*
 servers
 **/servers
 *.iml
+
+# Project exclude paths
+/build/target/
+/parameters-usage-server/target/

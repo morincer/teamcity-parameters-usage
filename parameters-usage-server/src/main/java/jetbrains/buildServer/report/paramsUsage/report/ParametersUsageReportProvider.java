@@ -1,5 +1,7 @@
 package jetbrains.buildServer.report.paramsUsage.report;
 
+import jetbrains.buildServer.report.paramsUsage.report.model.ParameterUsageInfo;
+import jetbrains.buildServer.report.paramsUsage.report.model.ParametersUsageReport;
 import jetbrains.buildServer.util.StringUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -45,10 +47,10 @@ public class ParametersUsageReportProvider {
 
         Map<String, ParameterUsageInfo> parameters = new HashMap<>();
 
-        this.configurationProvider.getProjectConfigurationFiles()
-                .forEach((projectName, path) -> {
+        this.configurationProvider.getProjects()
+                .forEach((projectName, projectInfo) -> {
                     try {
-                        var contents = Files.readAllBytes(path);
+                        var contents = Files.readAllBytes(projectInfo.getConfigurationFilePath());
                         var usedParameters = findUsedParameters(contents);
 
                         for (String usedParameter : usedParameters) {
@@ -57,7 +59,7 @@ public class ParametersUsageReportProvider {
                             }
 
                             var param = parameters.get(usedParameter);
-                            param.usedAtProjects.add(projectName);
+                            param.getUsedAtProjects().add(projectInfo);
                         }
 
                         var definedParameters = findDefinedParameters(contents);
@@ -68,17 +70,17 @@ public class ParametersUsageReportProvider {
                             }
 
                             var param = parameters.get(definedParameter);
-                            param.definedAtProjects.add(projectName);
+                            param.getDefinedAtProjects().add(projectInfo);
                         }
                     } catch (Exception e) {
-                        log.error(String.format("Failed to process %s: %s", path, e.getMessage()), e);
+                        log.error(String.format("Failed to process %s: %s", projectInfo.getConfigurationFilePath(), e.getMessage()), e);
                     }
                 });
 
-        this.configurationProvider.getBuildTypesConfigurationFiles()
-                .forEach((buildConfigName, path) -> {
+        this.configurationProvider.getBuildTypes()
+                .forEach((buildConfigName, buildTypeInfo) -> {
                     try {
-                        var contents = Files.readAllBytes(path);
+                        var contents = Files.readAllBytes(buildTypeInfo.getConfigurationFilePath());
                         var usedParameters = findUsedParameters(contents);
 
                         for (String usedParameter : usedParameters) {
@@ -87,7 +89,7 @@ public class ParametersUsageReportProvider {
                             }
 
                             var param = parameters.get(usedParameter);
-                            param.usedAtBuildConfigurations.add(buildConfigName);
+                            param.getUsedAtBuildConfigurations().add(buildTypeInfo);
                         }
 
                         var definedParameters = findDefinedParameters(contents);
@@ -98,14 +100,14 @@ public class ParametersUsageReportProvider {
                             }
 
                             var param = parameters.get(definedParameter);
-                            param.definedAtBuildConfigurations.add(buildConfigName);
+                            param.getDefinedAtBuildConfigurations().add(buildTypeInfo);
                         }
                     } catch (Exception e) {
-                        log.error(String.format("Failed to process %s: %s", path, e.getMessage()), e);
+                        log.error(String.format("Failed to process %s: %s", buildTypeInfo.getConfigurationFilePath(), e.getMessage()), e);
                     }
                 });
 
-        result.parametersUsage.addAll(parameters.values());
+        result.getParametersUsage().addAll(parameters.values());
 
         return result;
     }

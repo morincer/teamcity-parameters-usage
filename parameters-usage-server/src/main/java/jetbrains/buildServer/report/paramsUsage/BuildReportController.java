@@ -6,8 +6,8 @@ import com.thoughtworks.xstream.io.json.JsonWriter;
 import jetbrains.buildServer.controllers.BaseAjaxActionController;
 import jetbrains.buildServer.controllers.GetActionAllowed;
 import jetbrains.buildServer.log.Loggers;
-import jetbrains.buildServer.report.paramsUsage.report.ParameterUsageInfo;
-import jetbrains.buildServer.report.paramsUsage.report.ParametersUsageReport;
+import jetbrains.buildServer.report.paramsUsage.report.model.ParameterUsageInfo;
+import jetbrains.buildServer.report.paramsUsage.report.model.ParametersUsageReport;
 import jetbrains.buildServer.report.paramsUsage.report.ParametersUsageReportProvider;
 import jetbrains.buildServer.web.openapi.ControllerAction;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @GetActionAllowed
 public class BuildReportController extends BaseAjaxActionController implements ControllerAction{
@@ -53,7 +54,12 @@ public class BuildReportController extends BaseAjaxActionController implements C
         xstream.aliasType("report", ParametersUsageReport.class);
 
         try {
-            xstream.marshal(report, new JsonWriter(response.getWriter()));
+            PrintWriter writer = response.getWriter();
+            JsonWriter jsonWriter = new JsonWriter(writer);
+            xstream.marshal(report, jsonWriter);
+
+            writer.flush();
+            jsonWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

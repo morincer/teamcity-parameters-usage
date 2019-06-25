@@ -1,18 +1,18 @@
 package jetbrains.buildServer.report.paramsUsage;
 
-import jetbrains.buildServer.BuildProject;
 import jetbrains.buildServer.report.paramsUsage.report.ParametersUsageReportProvider;
 import jetbrains.buildServer.report.paramsUsage.report.TeamcityConfigurationProvider;
-import jetbrains.buildServer.serverSide.BuildTypeIdentity;
+import jetbrains.buildServer.report.paramsUsage.report.TeamcityConfigurationProviderImpl;
 import jetbrains.buildServer.serverSide.ProjectManager;
+import jetbrains.buildServer.serverSide.WebLinks;
+import jetbrains.buildServer.web.openapi.PagePlaces;
+import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
+import lombok.var;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
@@ -24,26 +24,22 @@ public class PluginConfiguration {
 
     @Bean
     ParametersUsageReportProvider parametersUsageReportProvider() throws ParserConfigurationException {
-        return new ParametersUsageReportProvider(teamcityConfigurationProvider(null));
+        return new ParametersUsageReportProvider(teamcityConfigurationProvider(null, null));
     }
 
     @Bean
-    TeamcityConfigurationProvider teamcityConfigurationProvider(ProjectManager projectManager) {
-        return new TeamcityConfigurationProvider() {
-            @Override
-            public Map<String, Path> getProjectConfigurationFiles() {
-                return projectManager.getProjects().stream().collect(Collectors.toMap(
-                        BuildProject::getName,
-                        prj -> prj.getConfigurationFile().toPath()));
-            }
+    TeamcityConfigurationProvider teamcityConfigurationProvider(ProjectManager projectManager,
+                                                                WebLinks webLinks
+                                                                ) {
 
-            @Override
-            public Map<String, Path> getBuildTypesConfigurationFiles() {
-                return projectManager.getAllBuildTypes().stream().collect(Collectors.toMap(
-                        BuildTypeIdentity::getName,
-                        btype -> btype.getConfigurationFile().toPath()
-                ));
-            }
-        };
+        return new TeamcityConfigurationProviderImpl(projectManager, webLinks);
     }
+
+    @Bean
+    ParametersUsageReportPage parametersUsageAdminPage(PagePlaces pagePlaces, PluginDescriptor pluginDescriptor) throws ParserConfigurationException {
+        var parametersUsageAdminPage = new ParametersUsageReportPage(pagePlaces, pluginDescriptor, parametersUsageReportProvider());
+        parametersUsageAdminPage.register();
+        return parametersUsageAdminPage;
+    }
+
 }
